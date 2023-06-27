@@ -17,7 +17,7 @@
 HCSR04 ultraSensor(TRIG, ECHO, 20, 4000);
 
 // Define a variável do botão
-int pushButton = 5;
+int contador = 0;
 
 // Define as variáveis globais do sensor de fluído e da variação
 int fluidSensor;
@@ -35,11 +35,10 @@ void setup() {
   pinMode(TRIG, OUTPUT);
   pinMode(ECHO, INPUT);
 
-  // Define o pino de entrada do botão
-  pinMode(pushButton, INPUT);
 
   // Inicializa a comunicação serial
   Serial.begin(9600);
+  repetir();
 }
 
 void loop() {
@@ -66,41 +65,54 @@ void loop() {
   fluidSensor = map(analogRead(SENSORLIQU),0,1023,0,10);
 
   // Imprime o valor do sensor de fluído na serial
-  Serial.println(fluidSensor);
+  // Serial.println(fluidSensor);
 
   // Se o valor do sensor for maior que 5, assume que é água
-  if (fluidSensor > 5) {
-    // Liga o LED azul e a válvula do fundo
-    digitalWrite(LEDB, HIGH);
-    digitalWrite(VALVFUNDO, HIGH);
+  if (fluidSensor <= 5) {
+    // Desliga o LED azul e a válvula do fundo
+    repetir();
   } 
   // Senão, assume que não é água
   else {
-    // Desliga o LED azul e a válvula do fundo
-    digitalWrite(VALVFUNDO, LOW);
-    digitalWrite(LEDB, LOW);
+    // Liga o LED azul e a válvula do fundo
+    digitalWrite(LEDB, HIGH);
+    repetir();
   }
 
   // Chama a função para ler o botão
-  readButton();
 }
 
 // Função para ler o botão
-void readButton() {
-  // Lê o estado do botão
-  int buttonState = digitalRead(pushButton);
+void fluidSensorWater() {
+    // delay(20000);
+    digitalWrite(LEDR,HIGH);
+    digitalWrite(VALVFUNDO, HIGH);
+}
+void fluidSensorOther() {
+    // delay(20000);
+    digitalWrite(LEDR,LOW);
+    digitalWrite(LEDB,LOW);
+    digitalWrite(VALVFUNDO, LOW);
+    contador = 0;
+}
 
-  // Imprime o estado do botão na serial
-  // Serial.println(buttonState);
-  // Aguarda um milissegundo
-  delay(1);
+void repetir() {
+  // Incrementa o contador em um
+  // Imprime o valor do contador na porta serial
+  Serial.println(contador);
+  
+  // Se o contador for menor que 20, chama a função novamente
+  if(fluidSensor>5){
 
-  // Se o botão estiver pressionado, liga o LED vermelho
-  if (buttonState > 0) {
-    digitalWrite(LEDR, HIGH);
-  } 
-  // Senão, desliga o LED vermelho
-  else {
-    digitalWrite(LEDR, LOW);
+  if (contador < 20) {
+  contador = contador + 1;
+    delay(1000);
+        if(contador==19){
+         fluidSensorWater();
+     }
+    repetir();
+  }
+  }else{
+      fluidSensorOther();
   }
 }
