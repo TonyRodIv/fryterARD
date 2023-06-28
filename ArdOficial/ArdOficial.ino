@@ -76,23 +76,24 @@ void echoSensor(){
   // Se a variação for menor que 1, desliga o LED branco e a válvula da tampa
   if (variation < 1) {
     digitalWrite(LEDW, LOW);
+    delay(800);
     digitalWrite(VALVTAMPA, LOW);
     // delay(20000); // Comentado pois não é usado
   } 
   // Senão, liga o LED branco e a válvula da tampa
   else {
-    digitalWrite(VALVTAMPA, HIGH);
     digitalWrite(LEDW, HIGH);
+    delay(300);
+    digitalWrite(VALVTAMPA, HIGH);
   }
 }
 // Função para ler o botão
 void fluidSensorWater() {
-    // delay(20000);
+    delay(500);
     digitalWrite(LEDR,HIGH);
     digitalWrite(VALVFUNDO, HIGH);
 }
 void fluidSensorOther() {
-    // delay(20000);
     digitalWrite(LEDR,LOW);
     digitalWrite(LEDB,LOW);
     digitalWrite(VALVFUNDO, LOW);
