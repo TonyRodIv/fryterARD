@@ -42,24 +42,8 @@ void setup() {
 }
 
 void loop() {
-  // Lê a distância em milímetros do sensor ultrassônico
-  int distanceM = ultraSensor.distanceInMillimeters();
-
-  // Mapeia a distância para uma variação entre 0 e 100
-  variation = map(distanceM,20,4000,0,100);
-
-  // Se a variação for menor que 1, desliga o LED branco e a válvula da tampa
-  if (variation < 1) {
-    digitalWrite(LEDW, LOW);
-    digitalWrite(VALVTAMPA, LOW);
-    // delay(20000); // Comentado pois não é usado
-  } 
-  // Senão, liga o LED branco e a válvula da tampa
-  else {
-    digitalWrite(VALVTAMPA, HIGH);
-    digitalWrite(LEDW, HIGH);
-  }
-
+  
+  echoSensor();
   // Lê o valor analógico do sensor de fluído e mapeia para uma escala entre 0 e 10
 
   fluidSensor = map(analogRead(SENSORLIQU),0,1023,0,10);
@@ -82,6 +66,25 @@ void loop() {
   // Chama a função para ler o botão
 }
 
+void echoSensor(){
+  // Lê a distância em milímetros do sensor ultrassônico
+  int distanceM = ultraSensor.distanceInMillimeters();
+
+  // Mapeia a distância para uma variação entre 0 e 100
+  variation = map(distanceM,20,4000,0,100);
+
+  // Se a variação for menor que 1, desliga o LED branco e a válvula da tampa
+  if (variation < 1) {
+    digitalWrite(LEDW, LOW);
+    digitalWrite(VALVTAMPA, LOW);
+    // delay(20000); // Comentado pois não é usado
+  } 
+  // Senão, liga o LED branco e a válvula da tampa
+  else {
+    digitalWrite(VALVTAMPA, HIGH);
+    digitalWrite(LEDW, HIGH);
+  }
+}
 // Função para ler o botão
 void fluidSensorWater() {
     // delay(20000);
@@ -106,6 +109,7 @@ void repetir() {
 
   if (contador < 20) {
   contador = contador + 1;
+  echoSensor();
     delay(1000);
         if(contador==19){
          fluidSensorWater();
@@ -113,6 +117,7 @@ void repetir() {
     repetir();
   }
   }else{
+    echoSensor();
       fluidSensorOther();
   }
 }
