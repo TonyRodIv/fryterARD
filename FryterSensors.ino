@@ -77,26 +77,26 @@ void echoSensor(){
   if (variation < 1) {
     digitalWrite(LEDW, LOW);
     delay(800);
-    digitalWrite(VALVTAMPA, LOW);
+    digitalWrite(VALVTAMPA, HIGH);
     // delay(20000); // Comentado pois não é usado
   } 
   // Senão, liga o LED branco e a válvula da tampa
   else {
     digitalWrite(LEDW, HIGH);
     delay(300);
-    digitalWrite(VALVTAMPA, HIGH);
+    digitalWrite(VALVTAMPA, LOW);
   }
 }
 // Função para ler o botão
 void fluidSensorWater() {
     delay(500);
     digitalWrite(LEDR,HIGH);
-    digitalWrite(VALVFUNDO, HIGH);
+    digitalWrite(VALVFUNDO, LOW);
 }
 void fluidSensorOther() {
     digitalWrite(LEDR,LOW);
     digitalWrite(LEDB,LOW);
-    digitalWrite(VALVFUNDO, LOW);
+    digitalWrite(VALVFUNDO, HIGH);
     contador = 0;
 }
 
