@@ -40,14 +40,14 @@ void loop() {
     }
 }
 
-void waterDetected() {
-    digitalWrite(VALVFUNDO, HIGH);
-    digitalWrite(LEDR, HIGH);
-}
-
 void oilDetected() {
-    digitalWrite(VALVFUNDO, LOW);
+    digitalWrite(VALVFUNDO, HIGH);
     digitalWrite(LEDB, LOW);
     digitalWrite(LEDR, LOW);
     contador = 0;
+}
+
+void waterDetected() {
+    digitalWrite(VALVFUNDO, LOW);
+    digitalWrite(LEDR, HIGH);
 }
